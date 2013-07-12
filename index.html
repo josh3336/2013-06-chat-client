@@ -18,11 +18,16 @@
           pollTime: 5000
         });
 
-    $(document).on("submit", "#roomform", function(event){
+    // $(document).on("submit", "#roomform", function(event){
+    //     event.preventDefault();
+    //     AddRoom($('#rm').val)
+    // });
+      $(document).submit("form",function(event){
         event.preventDefault();
-        AddRoom($('#rm').val)
-    });
-
+        
+        console.log('addroom')
+        AddRoom()
+      });
         //
 
       });

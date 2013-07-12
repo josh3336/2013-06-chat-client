@@ -12,14 +12,13 @@ var Chat = function(options,room) {
 
   // Add listeners
   $('#form').on('submit', this.handleSubmit.bind(this));
-  // $("#chat").click(function() {
-  //     console.log('inside main');
-  //     var div_id = $(this).children();
-  //     console.log(div_id);
-  // });
-  
   $('.currentrm').text(this.resource)
 
+  $('#roomform').on('submit',function(){
+    debugger
+    clearInterval(refreshIntervalId);
+    $('#chat').empty();
+  })
 
 
     // "Perma-bind" this.getMessages so it always runs in the context of this
@@ -27,9 +26,10 @@ var Chat = function(options,room) {
 
   // Immediately get messages
   this.getMessages();
-  // setInterval(function(){self.getMessages()},5000);
-  // setInterval(this.getMessages.bind(this),5000);
-  setInterval(this.getMessages, options.pollTime);
+
+  //setInterval returns a interval id which can be passed to clearInterval to 
+  //stop it
+  var refreshIntervalId=setInterval(this.getMessages, options.pollTime);
   this.boldFriends();
 };
 
@@ -85,6 +85,7 @@ Chat.prototype.sendMessage = function(message,username) {
 Chat.prototype.getMessages = function() {
   var that=this
 
+  console.log('getting messages for: ', this.resource)
   $.ajax('https://api.parse.com/1/classes/'+ this.resource, {
     type: "GET",
     contentType: 'application/json',
